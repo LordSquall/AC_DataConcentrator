@@ -13,11 +13,11 @@ namespace AC_SensorModels
 		bool result = false;
 
 		/* Process the data directory to build data set */
-		/*result = ProcessDataDirectory("../data/sensors");
+		result = ProcessDataDirectory("../data/network");
 		if (result == false)
 		{
 			return result;
-		}*/
+		}
 
 		/* Initialise networking */
 		printf("Initialising Winsock\n");
@@ -26,31 +26,31 @@ namespace AC_SensorModels
 			return false;
 		}
 
-		///* Initialise each sensor */
-		//for (std::vector<Sensor*>::iterator it = _sensors.begin(); it != _sensors.end(); ++it)
-		//{
-		//	Sensor* sensor = (Sensor*)*it;
+		/* Initialise each sensor */
+		for (std::vector<SensorInput*>::iterator it = _inputs.begin(); it != _inputs.end(); ++it)
+		{
+			SensorInput* inputSensor = (SensorInput*)*it;
 
-		//	/* Print out sensor information */
-		//	printf("Sensor: %s IPAddr: %s:%d\n", sensor->name, sensor->destinationIPAddress, sensor->destinationPort);
-		//
-		//	/* Open Sockets for each sensor */
-		//	sensor->socket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-		//	if (sensor->socket == SOCKET_ERROR)
-		//	{
-		//		printf("ERROR: Unable to open Socket\n");
-		//		return false;
-		//	}
+			/* Print out sensor information */
+			printf("Sensor: %s on port %d\n", inputSensor->name, inputSensor->sourcePort);
+		
+			/* Open Sockets for each sensor */
+			//sensor->socket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+			//if (sensor->socket == SOCKET_ERROR)
+			//{
+			//	printf("ERROR: Unable to open Socket\n");
+			//	return false;
+			//}
 
-		//	/* Setup address structure */
-		//	memset((char *)&sensor->socketAddr, 0, sizeof(sensor->socketAddr));
-		//	sensor->socketAddr.sin_family = AF_INET;
-		//	sensor->socketAddr.sin_port = htons(sensor->destinationPort);
-		//	sensor->socketAddr.sin_addr.S_un.S_addr = inet_addr(sensor->destinationIPAddress);
-		//				
-		//	/* Create Threads for each sensor */
-		//	std::thread* thread = new std::thread(&Framework::SensorFunction, this, sensor);
-		//}
+			///* Setup address structure */
+			//memset((char *)&sensor->socketAddr, 0, sizeof(sensor->socketAddr));
+			//sensor->socketAddr.sin_family = AF_INET;
+			//sensor->socketAddr.sin_port = htons(sensor->destinationPort);
+			//sensor->socketAddr.sin_addr.S_un.S_addr = inet_addr(sensor->destinationIPAddress);
+			//			
+			///* Create Threads for each sensor */
+			//std::thread* thread = new std::thread(&Framework::SensorFunction, this, sensor);
+		}
 
 		return result;
 	}
@@ -80,20 +80,28 @@ namespace AC_SensorModels
 				tinyxml2::XMLDocument doc;
 				doc.LoadFile(dirFile.path);
 
+				tinyxml2::XMLElement* networkElement = doc.FirstChildElement("network");
+
 				/* Check to make sure the root tag is network */
-				if (doc.FirstChildElement("network") != NULL)
+				if (networkElement != NULL)
 				{
-					///* Sensor config found */
-					//Sensor* newSensor = new Sensor();
-					///* name */
-					//strcpy_s(newSensor->name, doc.FirstChildElement("sensor")->FirstChildElement("name")->GetText());
-					///* ip address */
-					//strcpy_s(newSensor->destinationIPAddress, doc.FirstChildElement("sensor")->FirstChildElement("network")->Attribute("ipaddress"));
-					///* ip port */
-					//newSensor->destinationPort = atoi(doc.FirstChildElement("sensor")->FirstChildElement("network")->Attribute("port"));
-				
-					///* Add new sensor to framework */
-					//_sensors.push_back(newSensor);
+					/* Get Input Element */
+					tinyxml2::XMLElement* inputElement = networkElement->FirstChildElement("input");
+
+					/* Loop throught each input to get configuration information */
+					for (tinyxml2::XMLElement* e = inputElement->FirstChildElement("sensor"); e != NULL; e = e->NextSiblingElement("sensor"))
+					{
+						/* Sensor config found */
+						SensorInput* newSensorInput = new SensorInput();
+
+						/* name */
+						strcpy_s(newSensorInput->name, e->Attribute("name"));
+						/* ip port */
+						newSensorInput->sourcePort = e->IntAttribute("port");
+
+						/* Add new sensor to framework */
+						_inputs.push_back(newSensorInput);
+					}
 				}
 			}
 			tinydir_next(&dir);

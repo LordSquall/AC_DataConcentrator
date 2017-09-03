@@ -13,6 +13,7 @@
 /* Local project includes */
 #include "tinydir\tinydir.h"
 #include "tinyxml2\tinyxml2.h"
+#include "input\sensorinput.h"
 
 namespace AC_SensorModels
 {
@@ -29,6 +30,7 @@ namespace AC_SensorModels
 
 
 	private:
+		std::vector<SensorInput*> _inputs;
 		std::vector<std::thread> _threadHandles;
 		WSADATA _wsa;
 	};
