@@ -7,7 +7,7 @@ namespace AC_DataConcentrator
 
 	}
 
-	bool Framework::Initialise()
+	bool Framework::Initialise(char* dataDirectory)
 	{
 		/* Local variables */
 		bool result = false;
@@ -17,7 +17,7 @@ namespace AC_DataConcentrator
 
 
 		/* Process the data directory to build data set */
-		result = ProcessDataDirectory("../data/network");
+		result = ProcessDataDirectory(dataDirectory);
 		if (result == false)
 		{
 			return result;
@@ -97,7 +97,7 @@ namespace AC_DataConcentrator
 			memset((char *)&networkOutput->socketAddr, 0, sizeof(networkOutput->socketAddr));
 			networkOutput->socketAddr.sin_family = AF_INET;
 			networkOutput->socketAddr.sin_port = htons(networkOutput->destinationPort);
-			networkOutput->socketAddr.sin_addr.S_un.S_addr = inet_addr(networkOutput->destinationIPAddress);
+			InetPton(AF_INET, networkOutput->destinationIPAddress, &networkOutput->socketAddr.sin_addr);
 
 		}
 

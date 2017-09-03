@@ -6,6 +6,7 @@
 #include <thread>
 #include <stdio.h>
 #include <winsock2.h>
+#include <WS2tcpip.h>
 
 /* Libraries */
 #pragma comment(lib, "ws2_32.lib")
@@ -23,7 +24,7 @@ namespace AC_DataConcentrator
 	public:
 		Framework();
 
-		bool Initialise();
+		bool Initialise(char* dataDirectory);
 		bool Frame();
 
 	private:

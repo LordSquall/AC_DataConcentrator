@@ -20,8 +20,18 @@ add_executable(AC_DataConcentrator
 src/tinyxml2/tinyxml2.cpp
 src/main.cpp
 src/framework.cpp
+src/input/sensorinput.cpp
+src/output/networkoutput.cpp
+)
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT AC_DataConcentrator)
+
+source_group("input" FILES
+src/input/sensorinput.cpp
 )
 
+source_group("output" FILES
+src/output/networkoutput.cpp
+)
 
 source_group("tinyxml2" FILES
 src/tinyxml2/tinyxml2.cpp
