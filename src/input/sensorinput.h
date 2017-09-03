@@ -3,19 +3,29 @@
 
 /* System includes */
 #include <winsock2.h>
+#include <atomic>
 
+/* Typedefs */
+typedef char Byte;
 
-namespace AC_SensorModels
+namespace AC_DataConcentrator
 {
 	class SensorInput
 	{
 	public:
 		SensorInput();
 
-		bool Frame();
+		bool UpdateValue(Byte* buffer);
+
+		std::atomic<float> currentValue;
 
 		char name[25];
 		int sourcePort;
+
+		int socket;
+		struct sockaddr_in socketAddr;
+		struct sockaddr_in socketOtherAddr;
+		Byte buf[255];
 	};
 }
 #endif

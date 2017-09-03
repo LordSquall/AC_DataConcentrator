@@ -7,7 +7,7 @@
 #include "ac_dataconcentratorconfig.h"
 #include "framework.h"
 
-using namespace AC_SensorModels;
+using namespace AC_DataConcentrator;
 
 int main()
 {
@@ -37,7 +37,7 @@ int main()
 	{
 		if (clock() % 2000 == 0)
 		{
-			printf("foobar\n");
+			//printf("foobar\n");
 		}
 	}
 

@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<network>
+<config>
 	<input>
 		<sensor name="Altimeter" port="8100" />
 		<sensor name="Anemometer" port="8101" />
 		<sensor name="Variometer" port="8102" />
 		<sensor name="GPS" port="8103" />
 	</input>
-</network>
+	
+	<output>
+		<network name="VL1" ipaddress="127.0.0.1" port="9000" >
+			<structure count="4">
+				<sensor name="Altimeter" size="4" offset="0" />
+				<sensor name="Anemometer" size="4" offset="4" />
+				<sensor name="Variometer" size="4" offset="8" />
+				<sensor name="GPS" size="16" offset="12" />
+			</structure>
+		</network>
+	</output>
+</config>
