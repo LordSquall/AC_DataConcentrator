@@ -33,6 +33,7 @@ namespace AC_DataConcentrator
 		for (i = 0; i < blockCount; i++)
 		{
 			value = blocks[i].boundValue->load();
+			printf("Value: %f\n", value);
 			memcpy(&msgBuffer[blocks[i].offset], &value, blocks[i].size);
 		}
 	}

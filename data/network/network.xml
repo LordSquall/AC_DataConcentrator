@@ -5,6 +5,7 @@
 		<sensor name="Anemometer" port="8101" />
 		<sensor name="Variometer" port="8102" />
 		<sensor name="GPS" port="8103" />
+		<sensor name="AC_pitch" port="8104" />
 	</input>
 	
 	<output>
@@ -13,7 +14,8 @@
 				<sensor name="Altimeter" size="4" offset="0" />
 				<sensor name="Anemometer" size="4" offset="4" />
 				<sensor name="Variometer" size="4" offset="8" />
-				<sensor name="GPS" size="16" offset="12" />
+				<sensor name="AC_pitch" size="4" offset="12" />
+				<sensor name="GPS" size="16" offset="16" />
 			</structure>
 		</network>
 	</output>
